@@ -9,7 +9,8 @@ This document must be updated daily by EACH group member.
 In class:
 - Wrote and finalized PROPOSAL.md
 - Wrote README.md
-- Created shared.h, server.c client.c
+- Created shared.h, server.c, client.c
+- Wrote makefile
 
 ### 2024-01-07 - Brief description
 Expanded description including how much time was spent on task.
