@@ -47,6 +47,7 @@ Algorithms/data structures
 - Shared memory structs including player lives, positions, targets, turns, gameover variable, and winner
 - Player turn algorithm (makes sure valid input and based on outcome will print certain statements)
 - Proper turn based algorithm through pipes
+- Mirrored shooting algorithm (if you shoot at left, it is right from other player's perspective)
 - Game over algorithm (just checking if lives are equal to 0)
 - Signal handling algorithm (if sigint, remove named pipes, detach shared memory, exit server. if sigpipe, deal with client disconnect.)
 
