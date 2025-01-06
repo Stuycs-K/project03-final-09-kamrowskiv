@@ -11,7 +11,7 @@ Terminal paintball is a copy of GamePigeon's paintball game. It is a turn-based 
 
 ### Instructions:
 
-The user will git clone the repository. Going to the terminal and using make compile will create a server and client. This will make the clientfile, which will be run through ./clientfile. The server will also do the same and can be hosted through ./serverfile if wished. After ./clienfile, they will wait for an opponent.
+The user will git clone the repository. Going to the terminal and using make compile will create a server and client. This will make the clientfile, which will be run through make play. The server will also do the same and can be run through make server if wished. After make play, they will wait for an opponent.
 
 Once there is an opponent, the terminal will show and graphic of three hiding and shooting spots and text asking questions for the player to choose their turn choices. There should be two imputs here: first for hiding spot (L, M, R) and shooting spot (L, M, R). Once the user inputs, they will wait for their opponent to do the same.
 
