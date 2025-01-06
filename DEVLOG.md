@@ -2,18 +2,14 @@
 
 This document must be updated daily by EACH group member.
 
-## Player 1
+## Victor Kamrowski
 
-### 2024-01-02 - Brief description
-Expanded description including how much time was spent on task.
+### 2024-01-06 - Created files, wrote md files and makefile, made structs
 
-### 2024-01-03 - Brief description
-Expanded description including how much time was spent on task.
+In class:
+- Wrote and finalized PROPOSAL.md
+- Wrote README.md
+- Created shared.h, server.c client.c
 
-## Player 2
-
-### 2024-01-02 - Brief description
-Expanded description including how much time was spent on task.
-
-### 2024-01-03 - Brief description
+### 2024-01-07 - Brief description
 Expanded description including how much time was spent on task.
