@@ -8,9 +8,14 @@
 int main(){
     printf("Creating server...\n");
     //Placeholder for server setup
+    mkfifo(SERVER_PIPE,0666);
     printf("Waiting for players\n");
-    struct Player player1 = {"Player1", POS_MIDDLE, MAX_LIVES,0};
-    struct Player player2 = {"Player2", POS_MIDDLE, MAX_LIVES,0};
+    while(1){
+      int serverfd = open(SERVER_PIPE,O_RDONLY);
+
+      struct PlayerState clientplayer;
+      read(serverfd,&clientplayer,sizeof(struct PlayerState));
+    }
 
     printf("Ready for connections\n");
 
