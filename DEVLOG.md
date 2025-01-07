@@ -12,5 +12,9 @@ In class:
 - Created shared.h, server.c, client.c
 - Wrote makefile
 
+At home:
+- Fixed makefile
+- Created shared.h with position constants and PlayerState struct tracking position, lives, and score (if implemented)
+- Started main for client, added basic print statements and struct for stats
 ### 2024-01-07 - Brief description
 Expanded description including how much time was spent on task.
