@@ -1,23 +1,22 @@
 compile: client1 server1
 
 client1: client.o
-	@gcc -o clientfile client.o
+	@gcc -Wall -o clientfile client.o
 
 client.o: client.c shared.h
-	@gcc -c client.c
+	@gcc -Wall -c client.c
 
 play: clientfile
 	@./clientfile
 
 server1: server.o
-	@gcc -o serverfile server.o
+	@gcc -Wall -o serverfile server.o
 
 server.o: server.c shared.h
-	@gcc -c server.c
+	@gcc -Wall -c server.c
 
 server: serverfile
 	@./serverfile
 
 clean:
-	@rm *.o
-	@rm *~
+	@rm -f *.o clientfile serverfile *~
