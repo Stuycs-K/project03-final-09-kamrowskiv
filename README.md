@@ -7,12 +7,12 @@ Victor Kamrowski
 
 ### Project Description:
 
-Terminal paintball is a copy of GamePigeon's paintball game. It is a turn-based two player game. Each player takes turn choosing a hiding spot (left, middle, right), and a shooting spot (left, middle, right: mirrored so if you shoot left, your opponent sees as if you shot right). Each player has three lives, and each hit shot reduces a life. First player to reduce their opponent to zero lives wins.
+Terminal paintball is a copy of GamePigeon's paintball game. It is a turn-based two player game. When players choose their opponent in a lobby, each player takes turn choosing a hiding spot (left, middle, right), and a shooting spot (left, middle, right: mirrored so if you shoot left, your opponent sees as if you shot right). Each player has three lives, and each hit shot reduces a life. First player to reduce their opponent to zero lives wins. After a game, they will go back to the lobby.
 
 ### Instructions:
 
-The user will git clone the repository. Going to the terminal and using make compile will create a server and client. This will make the clientfile, which will be run through make play. The server will also do the same and can be run through make server if wished. After make play, they will wait for an opponent.
+The user will git clone the repository. Going to the terminal and using make compile will create a server and client. This will make the clientfile, which will be run through make play. The server will also do the same and can be run through make server if wished. After make play, they will wait for an opponent in the lobby.
 
 Once there is an opponent, the terminal will show and graphic of three hiding and shooting spots and text asking questions for the player to choose their turn choices. There should be two imputs here: first for hiding spot (L, M, R) and shooting spot (L, M, R). Once the user inputs, they will wait for their opponent to do the same.
 
-The player can forfeit anytime during the game through CTRL-C. When a player has won, a screen will pop up with a prompt asking to continue game (yes/no) or to exit client (CTRL-C).
+The player can forfeit anytime during the game through CTRL-C or go back to the lobby through Q. When a player has won, the players go back to the lobby, and they may again leave the lobby through CTRL-C.

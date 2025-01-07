@@ -8,15 +8,15 @@ Victor Kamrowski
 
 Terminal Paintball
 
-Turn-based two player game. Two players connect to a central server and take turns choosing a hiding position (left, middle, right) and targeting an opponent's position (same options). If a player successfully shoots their opponent's spot, the opponent loses one of their three lives. The first to reduce their opponent's lives to zero wins.
+Turn-based two player game. Players connect to a main lobby where they can invite others to play. When two players connect and take turns choosing a hiding position (left, middle, right) and targeting an opponent's position (same options). If a player successfully shoots their opponent's spot, the opponent loses one of their three lives. The first to reduce their opponent's lives to zero wins.
 
 (This game is a copy of GamePigeon's Paintball game if you want to see the expected outcome.)
 
 # Intended usage:
 
-1. Server side: Server program listens for clients. Forks a subserver process for each client pair.
+1. Server side: Server program listens for clients. Has a lobby and forks a subserver process for each client pair.
 
-2. Client side: Players connect to server and state their choices via text through terminal. Each turn players choose position (left, middle, right) and where to shoot (left, middle, right). Server evaluates player input and sees if hits were successful. Game continues until one player loses all lives. Client displays game state and final results.
+2. Client side: Players connect to server, then chooses opponent through lobby, and state their game choices via text through terminal. Each turn players choose position (left, middle, right) and where to shoot (left, middle, right). Server evaluates player input and sees if hits were successful. Game continues until one player loses all lives. Client displays game state and final results.
 
 # Technical Details:
 
@@ -31,6 +31,7 @@ Class concepts used:
 Breaking down project by:
 Main server:
 - Waits for client connection with named pipes
+- Has a lobby to hold unmatched players
 - Forks a subserver process for each client session
 
 Subserver:
@@ -57,7 +58,7 @@ Algorithms/data structures
 
 - Jan 6: Create files, create readme + makefile + devlog, set up shared memory structs
 - Jan 7: Implement named pipes, confirm message works inbetween server/client
-- Jan 8: Implement player input (L, M, R), write turn order logic, start semaphores
+- Jan 8: Start lobby, implement player input (L, M, R), write turn order logic, start semaphores
 - Jan 9: Implement turn logic (comparing positions, validating moves, update lives), add error handling, add signals
 - Jan 10/11/12: Add game over logic, display winner at end, start testing game + shared memory + pipe communication, add prompts and messages
 - Jan 13: Signal handling should be finalized, proper client and server exiting
