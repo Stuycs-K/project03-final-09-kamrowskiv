@@ -21,7 +21,7 @@ Turn-based two player game. Players connect to a main lobby where they can invit
 # Technical Details:
 
 Class concepts used:
-- Processes (forking) - server forks subservers to handle client connections
+- Processes (forking, stdin, fgets) - server forks subservers to handle client connections
 - Pipes(Named pipes) - communication between server and clients
 - Shared memory - game state being shared between processes
 - Semaphores - to handle how many users in server
