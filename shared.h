@@ -8,13 +8,13 @@
 #define MAX_NAME_LENGTH 50
 
 #define SERVER_PIPE "server_pipe"
-#define CLIENT_PIPE "client_pipe"
+#define CLIENT_PIPE "client_pipe_%s"
 
 struct PlayerState{
     char name[MAX_NAME_LENGTH];
     int position; //Left, right, or middle based on defined position constants
     int lives; //Number of lives left
     int score; //For if multiple rounds played
-}
+};
 
 #endif

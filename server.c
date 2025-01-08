@@ -3,6 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 #include "shared.h"
 
 int main(){
@@ -12,12 +13,28 @@ int main(){
     printf("Waiting for players\n");
     while(1){
       int serverfd = open(SERVER_PIPE,O_RDONLY);
+      if (serverfd==-1){
+        perror("Server: Failed to open server pipe\n");
+        exit(1);
+      }
 
       struct PlayerState clientplayer;
       read(serverfd,&clientplayer,sizeof(struct PlayerState));
+      printf("Client %s connected\n",clientplayer.name);
+
+      char clientpipe[20];
+      sprintf(clientpipe, CLIENT_PIPE,clientplayer.name);
+      int clientfd = open(clientpipe,O_WRONLY);
+      if (clientfd==-1){
+        perror("Server: Failed to open client pipe\n");
+        continue;
+      }
+
+      char msg[] = "%s connection confirmed by server";
+      write(clientfd,msg,sizeof(msg));
+      close(clientfd);
     }
 
-    printf("Ready for connections\n");
-
+  unlink(SERVER_PIPE);
     return 0;
 }

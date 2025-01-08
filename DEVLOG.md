@@ -18,5 +18,12 @@ At home:
 - Started main for client, added basic print statements and struct for stats
 - Started main for server, added basic print statements and placeholders for pipes. Made two structs for players
 
-### 2024-01-07 - Brief description
-Expanded description including how much time was spent on task.
+### 2024-01-07 - Added pipes, added stdin, both verified
+
+In class:
+- Edited md files for new project path of having a lobby
+- Created new branch now that more code is being written
+- Started pipes, stdin, and fgets
+
+At home:
+- 
