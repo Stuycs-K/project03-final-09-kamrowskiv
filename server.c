@@ -4,7 +4,16 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <semaphore.h>
 #include "shared.h"
+
+struct Lobby lobby;
+
+void initialize_lobby(){
+  lobby.playercount = 0;
+  sem_init(&lobby.lobbylock,0,1);
+}
 
 int main(){
     printf("Creating server...\n");
