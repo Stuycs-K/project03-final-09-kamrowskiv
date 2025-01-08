@@ -33,6 +33,7 @@ At home:
 - Fixed pipe order (which caused errors)
 - Added some error handling
 
-### 2025-01-08 -
+### 2025-01-08 - Added lobby and functions,
 
 In class:
+- Added lobby struct

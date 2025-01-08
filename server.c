@@ -37,6 +37,12 @@ void remove_from_lobby(char*playername){
   }
   sem_post(&lobby.lobbylock);
 }
+
+void display_lobby(){
+  sem_wait(&lobby.lobbylock);
+  char buffer[256] = "Avaliable players:\n";
+}
+
 int main(){
     printf("Creating server...\n");
 
