@@ -24,6 +24,11 @@ In class:
 - Edited md files for new project path of having a lobby
 - Created new branch now that more code is being written
 - Started pipes, stdin, and fgets
+- Updated makefile
 
 At home:
-- 
+- Finished stdin for custom names and pipes
+- Used fgets, planning on eventually deleting trailing \n
+- Each client creates their unique pipe to connect to server
+- Fixed pipe order (which caused errors)
+- Added some error handling

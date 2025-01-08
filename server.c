@@ -8,7 +8,7 @@
 
 int main(){
     printf("Creating server...\n");
-    //Placeholder for server setup
+
     mkfifo(SERVER_PIPE,0666);
     printf("Waiting for players\n");
     while(1){
@@ -19,19 +19,23 @@ int main(){
       }
 
       struct PlayerState clientplayer;
-      read(serverfd,&clientplayer,sizeof(struct PlayerState));
-      printf("Client %s connected\n",clientplayer.name);
+      if(read(serverfd,&clientplayer,sizeof(struct PlayerState))>0){
+        printf("Client %s connected\n",clientplayer.name);
+      }
+      close(serverfd);
 
-      char clientpipe[20];
+      char clientpipe[50];
       sprintf(clientpipe, CLIENT_PIPE,clientplayer.name);
+      printf("opening pipe %s",clientpipe);
       int clientfd = open(clientpipe,O_WRONLY);
       if (clientfd==-1){
         perror("Server: Failed to open client pipe\n");
         continue;
       }
 
-      char msg[] = "%s connection confirmed by server";
-      write(clientfd,msg,sizeof(msg));
+      char msg[50];
+      sprintf(msg,"%s connection confirmed by server",clientplayer.name);
+      write(clientfd,msg,sizeof(msg)+1);
       close(clientfd);
     }
 

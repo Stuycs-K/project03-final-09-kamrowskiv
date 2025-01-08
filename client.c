@@ -8,8 +8,6 @@
 
 int main(){
     printf("Connecting to server...\n");
-    //Placeholder, connection setup done here
-    printf("Connected!\n");
 
     struct PlayerState player;
     player.position = POS_MIDDLE;
@@ -18,29 +16,35 @@ int main(){
     printf("What is your name? (Max 25 chars)\n");
     fgets(player.name,MAX_NAME_LENGTH,stdin);
 
-    int serverfd;
-    serverfd = open(SERVER_PIPE,O_WRONLY);
-    if(serverfd==-1){
-        perror("Client: Failed to open server pipe\n");
+    char clientpipe[50];
+    sprintf(clientpipe,CLIENT_PIPE,player.name);
+    if(mkfifo(clientpipe,0666)==-1){
+        perror("Client: Failed to create client pipe\n");
         exit(1);
     }
+    printf("Created client pipe %s\n",clientpipe);
 
-    write(serverfd,&player,sizeof(struct PlayerState));
+    int serverfd = open(SERVER_PIPE, O_WRONLY);
+    if (serverfd == -1) {
+        perror("Client: Failed to open server pipe");
+        unlink(clientpipe);
+        exit(1);
+    }
+    write(serverfd, &player, sizeof(struct PlayerState));
     close(serverfd);
-
-    char clientpipe[20];
-    sprintf(clientpipe,CLIENT_PIPE,player.name);
-    mkfifo(clientpipe,0666);
+    printf("Client: Sent player data to server\n");
 
     int clientfd = open(clientpipe, O_RDONLY);
     if(clientfd==-1){
         perror("Client: Failed to open client pipe\n");
+        unlink(clientpipe);
         exit(1);
     }
 
     char ack_msg[50];
-    read(clientfd, ack_msg, sizeof(ack_msg));
-    printf("Client: Server says: %s\n",ack_msg);
+    if(read(clientfd, ack_msg, sizeof(ack_msg))>0){
+        printf("Client: Server says: %s\n",ack_msg);
+    }
     close(clientfd);
     unlink(clientpipe);
 

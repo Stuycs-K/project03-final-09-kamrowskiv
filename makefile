@@ -19,4 +19,4 @@ server: serverfile
 	@./serverfile
 
 clean:
-	@rm -f *.o clientfile serverfile *~ server_pipe
+	@rm -f *.o clientfile serverfile *~ server_pipe client_pipe_*
