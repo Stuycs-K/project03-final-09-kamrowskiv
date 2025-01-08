@@ -24,6 +24,19 @@ void add_to_lobby(char*playername){
   sem_post(&lobby.lobbylock);
 }
 
+void remove_from_lobby(char*playername){
+  sem_wait(&lobby.lobbylock);
+  for(int x=0;x<lobby.playercount;x++){
+    if(strcmp(lobby.players[x],playername)==0){
+      for(int y=x;y<lobby.playercount-1;y++){
+        strncpy(lobby.players[y],lobby.players[y+1],MAX_NAME_LENGTH);
+      }
+      lobby.playercount--;
+      break;
+    }
+  }
+  sem_post(&lobby.lobbylock);
+}
 int main(){
     printf("Creating server...\n");
 
