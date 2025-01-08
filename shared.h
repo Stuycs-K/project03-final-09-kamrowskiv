@@ -10,11 +10,20 @@
 #define SERVER_PIPE "server_pipe"
 #define CLIENT_PIPE "client_pipe_%s"
 
+#define MAX_PLAYERS 10
+#include <semaphore.h>
+
 struct PlayerState{
     char name[MAX_NAME_LENGTH];
     int position; //Left, right, or middle based on defined position constants
     int lives; //Number of lives left
     int score; //For if multiple rounds played
+};
+
+struct Lobby{
+  char players[MAX_PLAYERS][MAX_NAME_LENGTH];
+  int playercount;
+  sem_t lobbylock;
 };
 
 #endif

@@ -4,7 +4,7 @@ This document must be updated daily by EACH group member.
 
 ## Victor Kamrowski
 
-### 2024-01-06 - Created and started files, wrote md files + makefile + shared.h, made structs
+### 2025-01-06 - Created and started files, wrote md files + makefile + shared.h, made structs
 
 In class:
 - Wrote and finalized PROPOSAL.md
@@ -18,7 +18,7 @@ At home:
 - Started main for client, added basic print statements and struct for stats
 - Started main for server, added basic print statements and placeholders for pipes. Made two structs for players
 
-### 2024-01-07 - Added pipes, added stdin, both verified
+### 2025-01-07 - Added pipes, added stdin, both verified
 
 In class:
 - Edited md files for new project path of having a lobby
@@ -32,3 +32,7 @@ At home:
 - Each client creates their unique pipe to connect to server
 - Fixed pipe order (which caused errors)
 - Added some error handling
+
+### 2025-01-08 -
+
+In class:
