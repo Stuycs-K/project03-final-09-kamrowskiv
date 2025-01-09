@@ -58,8 +58,8 @@ Algorithms/data structures
 
 - Jan 6: Create files, create readme + makefile + devlog, set up shared memory structs
 - Jan 7: Implement named pipes, confirm message works inbetween server/client, add stdin for player inputs
-- Jan 8: Start lobby, implement player input (L, M, R), write turn order logic, start semaphores
-- Jan 9: Implement turn logic (comparing positions, validating moves, update lives), add error handling, add signals
+- Jan 8: Make lobby, make semaphores
+- Jan 9: Implement turn and game (L,M,R) logic (comparing positions, validating moves, update lives), add error handling, add signals
 - Jan 10/11/12: Add game over logic, display winner at end, start testing game + shared memory + pipe communication, add prompts and messages
 - Jan 13: Signal handling should be finalized, proper client and server exiting
 - Jan 14: Test more with error catching
