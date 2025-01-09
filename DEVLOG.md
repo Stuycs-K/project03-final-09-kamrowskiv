@@ -33,11 +33,16 @@ At home:
 - Fixed pipe order (which caused errors)
 - Added some error handling
 
-### 2025-01-08 - Added lobby and functions,
+### 2025-01-08 - Added lobby and functions, implemented into server, added client semaphores
 
 In class:
 - Added lobby struct
 - Created lobby in main and made methods to initialize lobby, add to lobby, and remove from lobby
 
 At home:
-- 
+- Finished lobby methods
+- Implemented lobby into server
+- All clients shown in lobby and methods work
+- Added semaphores to smoothly do one player process at a time
+
+### 2025-01-09 -
