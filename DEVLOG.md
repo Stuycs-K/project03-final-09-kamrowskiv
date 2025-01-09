@@ -46,3 +46,5 @@ At home:
 - Added semaphores to smoothly do one player process at a time
 
 ### 2025-01-09 -
+
+In class:

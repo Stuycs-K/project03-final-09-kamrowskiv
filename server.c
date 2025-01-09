@@ -22,7 +22,8 @@ void initialize_lobby(){
 void add_to_lobby(char*playername){
   sem_wait(&lobby.lobbylock);
   if(lobby.playercount<MAX_PLAYERS){
-    strncpy(lobby.players[lobby.playercount],playername,MAX_NAME_LENGTH);
+    players[playercount++] = *player;
+    strncpy(lobby.players[lobby.playercount],player->name,MAX_NAME_LENGTH);
     lobby.playercount++;
   }
   sem_post(&lobby.lobbylock);
