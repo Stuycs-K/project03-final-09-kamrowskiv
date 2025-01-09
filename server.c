@@ -66,11 +66,11 @@ int main(){
       if(read(serverfd,&clientplayer,sizeof(struct PlayerState))>0){
         add_to_lobby(clientplayer.name);
         printf("Client %s connected\n",clientplayer.name);
-      }
+      
 
       char clientpipe[50];
       sprintf(clientpipe, CLIENT_PIPE,clientplayer.name);
-      printf("opening pipe %s",clientpipe);
+      //printf("opening pipe %s",clientpipe);
       int clientfd = open(clientpipe,O_WRONLY);
       if (clientfd==-1){
         perror("Server: Failed to open client pipe\n");
@@ -83,10 +83,11 @@ int main(){
       read(serverfd,invite,sizeof(invite));
       printf("Player %s invited %s to play.\n", clientplayer.name,invite);
 
-      char msg[50];
+      char msg[100];
       sprintf(msg,"%s connection confirmed by server",clientplayer.name);
       write(clientfd,msg,sizeof(msg)+1);
       close(clientfd);
+      }
       close(serverfd);
     }
 
