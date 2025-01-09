@@ -11,6 +11,8 @@
 
 struct Lobby lobby;
 struct PlayerState players[MAX_PLAYERS];
+int playercount = 0;
+int currentturn = 0;
 
 void initialize_lobby(){
   lobby.playercount = 0;
@@ -49,6 +51,21 @@ void display_lobby(int clientfd){
   }
   write(clientfd,buffer,strlen(buffer)+1);
   sem_post(&lobby.lobbylock);
+}
+
+void notify_turn(int playerindex){
+  char clientpipe[50];
+  sprintf(clientpipe, CLIENT_PIPE, players[playerindex].name);
+
+  int clientfd = open(clientpipe, O_WRONLY);
+  if(clientfd==-1){
+    perror("Failed to open client pipe for player notification\n");
+    return;
+  }
+
+  char msg[] = "Your turn. Enter position (L,M,R)";
+  write(clientfd,msg,sizeof(msg));
+  close(clientfd);
 }
 
 void process_turn(int playerindex){
