@@ -5,10 +5,12 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <signal.h>
 #include <semaphore.h>
 #include "shared.h"
 
 struct Lobby lobby;
+struct PlayerState players[MAX_PLAYERS];
 
 void initialize_lobby(){
   lobby.playercount = 0;
@@ -49,6 +51,29 @@ void display_lobby(int clientfd){
   sem_post(&lobby.lobbylock);
 }
 
+void process_turn(int playerindex){
+  char clientpipe[50];
+  sprintf(clientpipe,CLIENT_PIPE,players[playerindex].name);
+
+  int clientfd = open(clientpipe, O_RDONLY);
+  if(clientfd==-1){
+    perror("Failed to open client pipe for player input\n");
+    return;
+  }
+
+  char move[5];
+  if(read(clientfd,move,sizeof(move))>0){
+    printf("Player %s chose move: %s\n",players[playerindex].name,move);
+
+    if(strcmp(move,"L")==0) players[playerindex].position = POS_LEFT;
+    else if (strcmp(move,"M")==0) players[playerindex].position = POS_MIDDLE;
+    else if (strcmp(move,"R")==0) players[playerindex].position = POS_RIGHT;
+    else printf("Invalid move from player %s\n",players[playerindex].name);
+}
+close(clientfd);
+}
+
+
 int main(){
     printf("Creating server...\n");
 
@@ -66,7 +91,7 @@ int main(){
       if(read(serverfd,&clientplayer,sizeof(struct PlayerState))>0){
         add_to_lobby(clientplayer.name);
         printf("Client %s connected\n",clientplayer.name);
-      
+
 
       char clientpipe[50];
       sprintf(clientpipe, CLIENT_PIPE,clientplayer.name);
