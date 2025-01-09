@@ -37,3 +37,7 @@ At home:
 
 In class:
 - Added lobby struct
+- Created lobby in main and made methods to initialize lobby, add to lobby, and remove from lobby
+
+At home:
+- 

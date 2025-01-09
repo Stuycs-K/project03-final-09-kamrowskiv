@@ -15,6 +15,7 @@ int main(){
     player.score = 0;
     printf("What is your name? (Max 25 chars)\n");
     fgets(player.name,MAX_NAME_LENGTH,stdin);
+    player.name[strcspn(player.name,"\n")] = '\0';
 
     char clientpipe[50];
     sprintf(clientpipe,CLIENT_PIPE,player.name);
@@ -41,10 +42,22 @@ int main(){
         exit(1);
     }
 
-    char ack_msg[50];
-    if(read(clientfd, ack_msg, sizeof(ack_msg))>0){
-        printf("Client: Server says: %s\n",ack_msg);
-    }
+    char buffer[256];
+    read(clientfd,buffer,sizeof(buffer));
+    printf("%s\n",buffer);
+
+    printf("Enter player name to invite: ");
+    char invite[MAX_NAME_LENGTH];
+    fgets(invite,MAX_NAME_LENGTH,stdin);
+    invite[strcspn(invite,"\n")] = '\0';
+
+    serverfd = open(SERVER_PIPE,O_WRONLY);
+    write(serverfd,invite,sizeof(invite));
+    close(serverfd);
+
+    read(clientfd,buffer,sizeof(buffer));
+    printf("%s\n",buffer);
+    
     close(clientfd);
     unlink(clientpipe);
 
