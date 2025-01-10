@@ -43,7 +43,34 @@ int main(){
 
   freeaddrinfo(res);
 
+  if(listen(listen_socket,2)==-1){
+    perror("listen failed");
+    close(listen_socket);
+    exit(1);
+  }
 
+  printf("Server listening on port %s...\n",PORT);
+
+  while(1){
+    printf("Waiting for Player 1\n");
+    client1 = accept(listen_socket,NULL,NULL);
+    if(client1==-1){
+      perror("accept failed");
+      continue;
+    }
+    printf("Player 1 connected\n");
+
+    printf("Waiting for Player 2\n");
+    client2 = accept(listen_socket,NULL,NULL);
+    if(client2==-1){
+      perror("accept failed");
+      close(client1);
+      continue;
+    }
+
+    printf("Player 2 connected\n");
+
+  }
 }
 
 
