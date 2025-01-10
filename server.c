@@ -15,6 +15,38 @@
 #define PORT "9999"
 #define BUFFER_SIZE 256
 
+void handle_game(int client1, int client2){
+  char buffer[BUFFER_SIZE];
+  int turn = 1;
+
+  while(1){
+    int active_client = (turn == 1) ? client1 : client2;
+    int other_client = (turn == 1) ? client2 : client1;
+
+    snprintf(buffer,sizeof(buffer),"Your turn. Enter a move (type 'quit' to exit): ");
+    send(active_client,buffer,strlen(buffer),0);
+
+    memset(buffer,0,sizeof(buffer));
+    int bytes_read = recv(active_client,buffer,sizeof(buffer)-1,0);
+    if(bytes_read<=0||strcmp(buffer,"quit\n")==0){
+      snprintf(buffer,sizeof(buffer),"Player %d has left the game\n",turn);
+      send(client1,buffer,strlen(buffer),0);
+      send(client2,buffer,strlen(buffer),0);
+      break;
+    }
+
+    buffer[bytes_read] = '\0';
+
+    snprintf(buffer + strlen(buffer),sizeof(buffer) - strlen(buffer)," (from player %d\n)",turn);
+    send(other_client,buffer,strlen(buffer),0);
+
+    turn = 3-turn;
+  }
+  close(client1);
+  close(client2);
+  exit(0);
+}
+
 int main(){
   struct addrinfo hints, *res;
   int listen_socket, client1, client2;
@@ -70,7 +102,16 @@ int main(){
 
     printf("Player 2 connected\n");
 
+    if(fork()==0){
+      close(listen_socket);
+      handle_game(client1,client2);
+    }
+
+    close(client1);
+    close(client2);
   }
+  close(listen_socket);
+  return 0;
 }
 
 
