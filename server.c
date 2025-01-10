@@ -27,13 +27,13 @@ void handle_game(int client1, int client2){
 
   while(1){
     int active_client = (turn == 1) ? client1 : client2;
-    int other_client = (turn == 1) ? client2 : client1;
+    int opponent_client = (turn == 1) ? client2 : client1;
     struct Player * active_player = &players[turn-1];
     struct Player * opponent_player = &players[2-turn];
 
 
     snprintf(buffer,sizeof(buffer),"Your turn. Lives: %d | Opponent Lives: %d\n Enter command (POSITION <0|1|2> or SHOOT <0|1|2>) (type 'quit' to exit): ",active_player->lives,opponent_player->lives);
-    
+
     send(active_client,buffer,strlen(buffer),0);
 
     memset(buffer,0,sizeof(buffer));
@@ -47,9 +47,47 @@ void handle_game(int client1, int client2){
 
     buffer[bytes_read] = '\0';
 
-    snprintf(buffer + strlen(buffer),sizeof(buffer) - strlen(buffer)," (from player %d\n)",turn);
-    send(other_client,buffer,strlen(buffer),0);
+    if(strncmp(buffer,"POSITION",8)==0){
+      int new_position;
+      if (sscanf(buffer+9,"%d",&new_position)==1 && new_position >= 0 && new_position <=2){
+        active_player->position = new_position;
+        snprintf(buffer,sizeof(buffer),"Player %d moved to position %d\n",turn,new_position);
+        send(active_client,buffer,strlen(buffer),0);
+      }else{
+        snprintf(buffer,sizeof(buffer),"Invalid position. Use 0 (left), 1 (middle), or 2 (right)\n");
+        send(active_client,buffer,strlen(buffer),0);
+        continue;
+      }
+    }else if (strncmp(buffer,"SHOOT",5)==0){
+      int target_position;
+      if(sscanf(buffer+6,"%d",&target_position)==1 && target_position >=0 && target_position <= 2){
+        if(target_position==opponent_player->position){
+          opponent_player->lives--;
+          snprintf(buffer,sizeof(buffer),"Hit! Player %d loses a life. Remaining lives: %d\n",(turn==1) ? 2 : 1,opponent_player->lives);
+        }else{
+          snprintf(buffer,sizeof(buffer),"Missed. Player %d is safe.\n", (turn==1) ? 2 : 1);
+        }
+        send(active_client,buffer,strlen(buffer),0);
+        send(opponent_client,buffer,strlen(buffer),0);
 
+        //for game over checking
+        if(opponent_player->lives<=0){
+          snprintf(buffer,sizeof(buffer), "Player %d wins! Game over.\n",turn);
+          send(client1,buffer,strlen(buffer),0);
+          send(client2,buffer,strlen(buffer),0);
+          break;
+        }
+      }else{
+        snprintf(buffer,sizeof(buffer),"Invalid target! Use 0 (left), 1 (middle), or 2 (right)\n");
+        send(active_client,buffer,strlen(buffer),0);
+        continue;
+      }
+    }else{
+      snprintf(buffer,sizeof(buffer),"Invalid command! Use POSITION or SHOOT\n");
+      send(active_client,buffer,strlen(buffer),0);
+      continue;
+    }
+    //for alternating turns
     turn = 3-turn;
   }
   close(client1);
