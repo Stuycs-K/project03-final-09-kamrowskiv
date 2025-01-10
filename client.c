@@ -42,7 +42,7 @@ int main(){
     }
 
     freeaddrinfo(res);
-    print("connected to server\n");
+    printf("connected to server\n");
 
     while(1){
         memset(buffer,0,sizeof(buffer));
@@ -131,3 +131,4 @@ int main(){
 
 
 }
+*/
