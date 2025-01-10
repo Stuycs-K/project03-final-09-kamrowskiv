@@ -19,7 +19,7 @@ void initialize_lobby(){
   sem_init(&lobby.lobbylock,0,1);
 }
 
-void add_to_lobby(char*playername){
+void add_to_lobby(struct PlayerState* player){
   sem_wait(&lobby.lobbylock);
   if(lobby.playercount<MAX_PLAYERS){
     players[playercount++] = *player;
@@ -93,6 +93,8 @@ close(clientfd);
 
 
 int main(){
+  signal(SIGINT,sighandler);
+
     printf("Creating server...\n");
 
     mkfifo(SERVER_PIPE,0666);
@@ -107,7 +109,7 @@ int main(){
 
       struct PlayerState clientplayer;
       if(read(serverfd,&clientplayer,sizeof(struct PlayerState))>0){
-        add_to_lobby(clientplayer.name);
+        add_to_lobby(&newplayer);
         printf("Client %s connected\n",clientplayer.name);
 
 
