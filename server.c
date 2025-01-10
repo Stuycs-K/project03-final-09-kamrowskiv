@@ -2,13 +2,52 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/socket.h>
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <signal.h>
 #include <semaphore.h>
+#include <netdb.h>
+#include <errno.h>
 #include "shared.h"
 
+#define PORT "9999"
+#define BUFFER_SIZE 256
+
+int main(){
+  struct addrinfo hints, *res;
+  int listen_socket, client1, client2;
+
+  memset(&hints,0,sizeof(hints));
+  hints.ai_family = AF_INET;
+  hints.ai_socktype = SOCK_STREAM;
+  hints.ai_flags = AI_PASSIVE;
+
+  if(getaddrinfo(NULL,PORT,&hints,&res)!=0){
+    perror("getaddrinfo failed");
+    exit(1);
+  }
+
+  listen_socket = socket(res->ai_family,res->ai_socktype,res->ai_protocol);
+  if(listen_socket==-1){
+    perror("socket failed");
+    exit(1);
+  }
+
+  if(bind(listen_socket,res->ai_addr,res->ai_addrlen)==-1){
+    perror("bind failed");
+    close(listen_socket);
+    exit(1);
+  }
+
+  freeaddrinfo(res);
+
+
+}
+
+
+/*
 struct Lobby lobby;
 struct PlayerState players[MAX_PLAYERS];
 int playercount = 0;

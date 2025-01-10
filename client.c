@@ -2,10 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/socket.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <signal.h>
+#include <semaphore.h>
+#include <netdb.h>
+#include <errno.h>
 #include "shared.h"
 
+
+/*
 int main(){
     printf("Connecting to server...\n");
 
