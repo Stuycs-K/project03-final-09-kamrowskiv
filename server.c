@@ -15,15 +15,25 @@
 #define PORT "9999"
 #define BUFFER_SIZE 256
 
+struct Player{
+  int position;
+  int lives;
+};
+
 void handle_game(int client1, int client2){
   char buffer[BUFFER_SIZE];
+  struct Player players[2] = {{1,3}, {1,3}};
   int turn = 1;
 
   while(1){
     int active_client = (turn == 1) ? client1 : client2;
     int other_client = (turn == 1) ? client2 : client1;
+    struct Player * active_player = &players[turn-1];
+    struct Player * opponent_player = &players[2-turn];
 
-    snprintf(buffer,sizeof(buffer),"Your turn. Enter a move (type 'quit' to exit): ");
+
+    snprintf(buffer,sizeof(buffer),"Your turn. Lives: %d | Opponent Lives: %d\n Enter command (POSITION <0|1|2> or SHOOT <0|1|2>) (type 'quit' to exit): ",active_player->lives,opponent_player->lives);
+    
     send(active_client,buffer,strlen(buffer),0);
 
     memset(buffer,0,sizeof(buffer));
