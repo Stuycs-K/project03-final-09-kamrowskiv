@@ -55,8 +55,10 @@ At home:
 - Restarted base of project
 - Commented out pipes, replaced with sockets
 
-### 2025-01-10 - Added position and shooting choosing
+### 2025-01-10 - Added position and shooting choosing, added proper quitting
 
 In class:
 - Edited handle_game method in server to handle position choice, shooting choice, and errors such as invalid input
-- 
+- Made slight edits to clients
+- Tested game with 2 clients, worked, but game mechanics not as I want
+- Error input properly catched
