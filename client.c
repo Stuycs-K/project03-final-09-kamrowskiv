@@ -55,7 +55,7 @@ int main(){
         printf("%s",buffer);
 
         if(strstr(buffer,"Your turn")!=NULL){
-            printf("Enter your move: ");
+            printf("Enter your command: ");
             memset(buffer, 0, sizeof(buffer));
             fgets(buffer, sizeof(buffer),stdin);
 
@@ -123,7 +123,7 @@ int main(){
 
     read(clientfd,buffer,sizeof(buffer));
     printf("%s\n",buffer);
-    
+
     close(clientfd);
     unlink(clientpipe);
 
