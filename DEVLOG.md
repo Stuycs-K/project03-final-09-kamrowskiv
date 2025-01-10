@@ -54,3 +54,9 @@ In class:
 At home:
 - Restarted base of project
 - Commented out pipes, replaced with sockets
+
+### 2025-01-10 - Added position and shooting choosing
+
+In class:
+- Edited handle_game method in server to handle position choice, shooting choice, and errors such as invalid input
+- 

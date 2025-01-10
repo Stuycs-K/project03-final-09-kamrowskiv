@@ -162,7 +162,6 @@ int main(){
   return 0;
 }
 
-
 /*
 struct Lobby lobby;
 struct PlayerState players[MAX_PLAYERS];
