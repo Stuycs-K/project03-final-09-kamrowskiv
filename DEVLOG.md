@@ -45,6 +45,12 @@ At home:
 - All clients shown in lobby and methods work
 - Added semaphores to smoothly do one player process at a time
 
-### 2025-01-09 -
+### 2025-01-09 - Added turn based functions, decided to switch pipes with sockets/networking
 
 In class:
+- Created function for processing moves
+- Created function for notifying players to play
+
+At home:
+- Restarted base of project
+- Commented out pipes, replaced with sockets
