@@ -41,6 +41,19 @@ void broadcast_lobby(){
   }
 }
 
+void add_to_lobby(int client_socket, const char *name){
+  if(lobby_count<MAX_CLIENTS){
+    lobby[lobby_count].socket = client_socket;
+    strncpy(lobby[lobby_count].name,name,BUFFER_SIZE);
+    lobby_count++;
+    broadcast_lobby();
+  }else{
+    char msg[] = "Lobby is full, try again later\n";
+    send(client_socket,msg,strlen(msg),0);
+    close(client_socket);
+  }
+}
+
 void handle_game(int client1, int client2){
   char buffer[BUFFER_SIZE];
   struct Player players[2] = {{1,3}, {1,3}};
