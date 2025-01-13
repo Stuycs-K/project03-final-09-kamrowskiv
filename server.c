@@ -54,6 +54,19 @@ void add_to_lobby(int client_socket, const char *name){
   }
 }
 
+void remove_from_lobby(int client_socket){
+  for(int x=0;x<lobby_count;x++){
+    if(lobby[x].socket==client_socket){
+      for(y=x;y<lobby_count-1;y++){
+        lobby[y] = lobby[y+1];
+      }
+      lobby_count--;
+      break;
+    }
+  }
+  broadcast_lobby();
+}
+
 void handle_game(int client1, int client2){
   char buffer[BUFFER_SIZE];
   struct Player players[2] = {{1,3}, {1,3}};

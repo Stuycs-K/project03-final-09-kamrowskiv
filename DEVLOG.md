@@ -55,7 +55,7 @@ At home:
 - Restarted base of project
 - Commented out pipes, replaced with sockets
 
-### 2025-01-10 - Added position and shooting choosing, added proper quitting, error catching, restarted lobby with better implement plan and setup
+### 2025-01-10/11/12 - Added position and shooting choosing, added proper quitting, error catching, restarted lobby with better implement plan and setup
 
 In class:
 - Edited handle_game method in server to handle position choice, shooting choice, and errors such as invalid input
@@ -67,3 +67,8 @@ At home:
 - Started lobby with lobby structs
 - Devised how to properly implement lobby, with all methods listed
 - Added broadcast lobby method which will show each time the lobby is edited
+
+### 2025-01-13 - Continued editing old lobby methods
+
+In class:
+- Edited original lobby method to be used with new broadcast lobby method and structs
