@@ -14,11 +14,22 @@
 
 #define PORT "9999"
 #define BUFFER_SIZE 256
+#define MAX_CLIENTS 10
 
-struct Player{
+struct Player{ //might delete
   int position;
   int lives;
 };
+
+struct Client {
+  int socket;
+  char name[BUFFER_SIZE];
+};
+
+struct Client lobby[MAX_CLIENTS];
+int lobby_count = 0;
+
+
 
 void handle_game(int client1, int client2){
   char buffer[BUFFER_SIZE];
