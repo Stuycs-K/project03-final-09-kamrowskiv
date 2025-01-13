@@ -72,6 +72,10 @@ void handle_game(int client1, int client2){
   struct Player players[2] = {{1,3}, {1,3}};
   int turn = 1;
 
+  snprintf(buffer,sizeof(buffer),"Game started\n");
+  send(client1,buffer,strlen(buffer),0);
+  send(client2,buffer,strlen(buffer),0);
+
   while(1){
     int active_client = (turn == 1) ? client1 : client2;
     int opponent_client = (turn == 1) ? client2 : client1;
@@ -93,6 +97,7 @@ void handle_game(int client1, int client2){
     }
 
     buffer[bytes_read] = '\0';
+    send(opponent_client,buffer,strlen(buffer),0);
 
     if(strncmp(buffer,"POSITION",8)==0){
       int new_position;
@@ -142,6 +147,20 @@ void handle_game(int client1, int client2){
   exit(0);
 }
 
+void handle_client(int client_socket){
+  char buffer[BUFFER_SIZE];
+
+  recv(client_socket,buffer,sizeof(buffer)-1,0);
+  buffer[strcspn(buffer,"\n")] = '\0';
+  printf("Client connected: %s\n",buffer);
+
+  add_to_lobby(client_socket,buffer);
+
+  while(1){
+    //here, deal with disconnecting and inviting
+  }
+}
+
 int main(){
   struct addrinfo hints, *res;
   int listen_socket, client1, client2;
@@ -170,7 +189,7 @@ int main(){
 
   freeaddrinfo(res);
 
-  if(listen(listen_socket,2)==-1){
+  if(listen(listen_socket,MAX_CLIENTS)==-1){
     perror("listen failed");
     close(listen_socket);
     exit(1);
