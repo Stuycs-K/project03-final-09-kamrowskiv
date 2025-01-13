@@ -29,7 +29,17 @@ struct Client {
 struct Client lobby[MAX_CLIENTS];
 int lobby_count = 0;
 
-
+void broadcast_lobby(){
+  char buffer[BUFFER_SIZE] = "Lobby: ";
+  for(int x=0;x<lobby_count;x++){
+    strcat(buffer,lobby[x].name);
+    strcat(buffer," ");
+  }
+  strcat(buffer,"\n");
+  for(int x =0;x<lobby_count;x++){
+    send(lobby[x].socket,buffer,strlen(buffer),0);
+  }
+}
 
 void handle_game(int client1, int client2){
   char buffer[BUFFER_SIZE];

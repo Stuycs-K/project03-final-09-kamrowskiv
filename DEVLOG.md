@@ -55,7 +55,7 @@ At home:
 - Restarted base of project
 - Commented out pipes, replaced with sockets
 
-### 2025-01-10 - Added position and shooting choosing, added proper quitting
+### 2025-01-10 - Added position and shooting choosing, added proper quitting, error catching, restarted lobby with better implement plan and setup
 
 In class:
 - Edited handle_game method in server to handle position choice, shooting choice, and errors such as invalid input
@@ -63,3 +63,7 @@ In class:
 - Tested game with 2 clients, worked, but game mechanics not as I want
 - Error input properly catched
 
+At home:
+- Started lobby with lobby structs
+- Devised how to properly implement lobby, with all methods listed
+- Added broadcast lobby method which will show each time the lobby is edited
