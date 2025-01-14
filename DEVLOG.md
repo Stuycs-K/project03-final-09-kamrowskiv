@@ -83,3 +83,4 @@ At home:
 
 In class:
 - Added invite code that removes clients from lobby, plays the game, then adds them back to the lobby
+- Added else/error cases for invitation declined, player not found, and invalid command
