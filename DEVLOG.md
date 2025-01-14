@@ -72,3 +72,8 @@ At home:
 
 In class:
 - Edited original lobby method to be used with new broadcast lobby method and structs
+- Edited remove from lobby method, included broadcast when making
+- Created basic base for handle client method (deals with disconnecting and inviting)
+
+At home:
+- 

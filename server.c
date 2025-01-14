@@ -158,6 +158,20 @@ void handle_client(int client_socket){
 
   while(1){
     //here, deal with disconnecting and inviting
+    memset(buffer,0,sizeof(buffer));
+    int bytes_read = recv(client_socket,buffer,sizeof(buffer)-1,0);
+    if(bytes_read <= 0){
+      printf("Client disconnected: %s\n",buffer);
+      remove_from_lobby(client_socket);
+      close(client_socket);
+      break;
+    }
+
+    buffer[bytes_read] = '\0';
+
+    if(strncmp(buffer,"INVITE",6)==0){
+      //for invite
+    }
   }
 }
 
