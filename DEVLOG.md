@@ -68,7 +68,7 @@ At home:
 - Devised how to properly implement lobby, with all methods listed
 - Added broadcast lobby method which will show each time the lobby is edited
 
-### 2025-01-13 - Continued editing old lobby methods
+### 2025-01-13 - Continued editing old lobby methods, started method to handle client and lobby (handle_client)
 
 In class:
 - Edited original lobby method to be used with new broadcast lobby method and structs
@@ -78,3 +78,8 @@ In class:
 At home:
 - Added remove when client disconnects
 - Wrote first part of invite that invites based on inputted string
+
+### 2025-01-14 - Continued editing handle_client
+
+In class:
+- Added invite code that removes clients from lobby, plays the game, then adds them back to the lobby

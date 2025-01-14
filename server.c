@@ -183,6 +183,23 @@ void handle_client(int client_socket){
 
       if(opponent_socket!=-1){
         //send invite to opponent
+        snprintf(buffer,sizeof(buffer),"%s invites you to a game. Type 'ACCEPT' to join.\n",lobby[0].name);
+        send(opponent_socket,buffer,strlen(buffer),0);
+
+        memset(buffer,0,sizeof(buffer));
+        recv(opponent_socket,buffer,sizeof(buffer)-1,0);
+        if(strncmp(buffer,"ACCEPT",6)==0){
+          remove_from_lobby(client_socket);
+          remove_from_lobby(opponent_socket);
+          if(fork()==0){
+            handle_game(client_socket,opponent_socket);
+            add_to_lobby(client_socket,lobby[0].name);
+            add_to_lobby(opponent_socket,opponent_name);
+            exit(0);
+          }
+        }else{
+          
+        }
       }
     }
   }
