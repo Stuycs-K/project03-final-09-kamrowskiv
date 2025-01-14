@@ -198,9 +198,16 @@ void handle_client(int client_socket){
             exit(0);
           }
         }else{
-          
+          snprintf(buffer,sizeof(buffer),"Invitation declined by %s\n",opponent_name);
+          send(opponent_socket,buffer,strlen(buffer),0);
         }
+      }else{
+        snprintf(buffer,sizeof(buffer),"Player %s not found in lobby\n",opponent_name);
+        send(opponent_socket,buffer,strlen(buffer),0);
       }
+    }else{
+      snprintf(buffer,sizeof(buffer),"Invalid command. Use INVITE <player_name>\n");
+      send(opponent_socket,buffer,strlen(buffer),0);
     }
   }
 }
