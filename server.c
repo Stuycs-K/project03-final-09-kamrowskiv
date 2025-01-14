@@ -170,7 +170,20 @@ void handle_client(int client_socket){
     buffer[bytes_read] = '\0';
 
     if(strncmp(buffer,"INVITE",6)==0){
-      //for invite
+      char opponent_name[BUFFER_SIZE];
+      sscanf(buffer+7,"%s",opponent_name);
+
+      int opponent_socket = -1;
+      for(int x=0;x<lobby_count;x++){
+        if(strcmp(lobby[x].name,opponent_name)==0){
+          opponent_socket = lobby[x].socket;
+          break;
+        }
+      }
+
+      if(opponent_socket!=-1){
+        //send invite to opponent
+      }
     }
   }
 }

@@ -76,4 +76,5 @@ In class:
 - Created basic base for handle client method (deals with disconnecting and inviting)
 
 At home:
-- 
+- Added remove when client disconnects
+- Wrote first part of invite that invites based on inputted string
