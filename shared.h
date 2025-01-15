@@ -26,4 +26,7 @@ struct Lobby{
   sem_t lobbylock;
 };
 
+//remove structs and add server structs. add lobby functions here to make easier
+
+
 #endif

@@ -84,3 +84,7 @@ At home:
 In class:
 - Added invite code that removes clients from lobby, plays the game, then adds them back to the lobby
 - Added else/error cases for invitation declined, player not found, and invalid command
+
+At home:
+- Edited client by removing all old unnecessary methods
+- Planned how to add methods and structs to shared.h to make everything more efficient
