@@ -93,3 +93,5 @@ At home:
 
 In class:
 - Added ask for name in client using stdin
+- Client main added code for when you are invited
+- Client main added code for when you invite someone

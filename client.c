@@ -57,20 +57,22 @@ int main(){
             printf("Disconnected from server\n");
             break;
         }
+
         buffer[bytes_read] = '\0';
         printf("%s",buffer);
 
-        if(strstr(buffer,"Your turn")!=NULL){
-            printf("Enter your command: ");
+        if(strstr(buffer,"invites you to a game")!=NULL){
+            printf("Type 'ACCEPT' to join the game, or ignore to stay in the lobby: ");
             memset(buffer, 0, sizeof(buffer));
             fgets(buffer, sizeof(buffer),stdin);
-
             send(socket_fd,buffer,strlen(buffer),0);
+        }
 
-            if(strncmp(buffer,"quit",4)==0){
-                printf("You quit\n");
-                break;
-            }
+        if(strstr(buffer,"Lobby: ")!=NULL){
+          printf("Type 'INVITE <player_name>' to invite a player to a game: ");
+          memset(buffer,0,sizeof(buffer));
+          fgets(buffer,sizeof(buffer),stdin);
+          send(socket_fd,buffer,strlen(buffer),0);
         }
     }
     close(socket_fd);
