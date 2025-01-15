@@ -79,7 +79,7 @@ At home:
 - Added remove when client disconnects
 - Wrote first part of invite that invites based on inputted string
 
-### 2025-01-14 - Continued editing handle_client
+### 2025-01-14 - Finished handle_client (which deals with lobby), started working on client code for lobby
 
 In class:
 - Added invite code that removes clients from lobby, plays the game, then adds them back to the lobby
@@ -88,3 +88,8 @@ In class:
 At home:
 - Edited client by removing all old unnecessary methods
 - Planned how to add methods and structs to shared.h to make everything more efficient
+
+### 2025-01-15 - Finished client.c code for lobby in main
+
+In class:
+- Added ask for name in client using stdin

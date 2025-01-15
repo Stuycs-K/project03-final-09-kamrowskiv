@@ -42,7 +42,13 @@ int main(){
     }
 
     freeaddrinfo(res);
-    printf("connected to server\n");
+    printf("Connected to server\n");
+
+    printf("Enter your name: ");
+    memset(buffer,0,sizeof(buffer));
+    fgets(buffer,sizeof(buffer),stdin);
+    buffer[strcspn(buffer,"\n")] = "\0";
+    send(socket_fd,buffer,strlen(buffer),0);
 
     while(1){
         memset(buffer,0,sizeof(buffer));
@@ -70,4 +76,3 @@ int main(){
     close(socket_fd);
     return 0;
 }
-
