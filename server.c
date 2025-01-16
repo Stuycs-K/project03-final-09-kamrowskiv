@@ -57,7 +57,7 @@ void add_to_lobby(int client_socket, const char *name){
 void remove_from_lobby(int client_socket){
   for(int x=0;x<lobby_count;x++){
     if(lobby[x].socket==client_socket){
-      for(y=x;y<lobby_count-1;y++){
+      for(int y=x;y<lobby_count-1;y++){
         lobby[y] = lobby[y+1];
       }
       lobby_count--;
@@ -199,15 +199,15 @@ void handle_client(int client_socket){
           }
         }else{
           snprintf(buffer,sizeof(buffer),"Invitation declined by %s\n",opponent_name);
-          send(opponent_socket,buffer,strlen(buffer),0);
+          send(client_socket,buffer,strlen(buffer),0);
         }
       }else{
         snprintf(buffer,sizeof(buffer),"Player %s not found in lobby\n",opponent_name);
-        send(opponent_socket,buffer,strlen(buffer),0);
+        send(client_socket,buffer,strlen(buffer),0);
       }
     }else{
       snprintf(buffer,sizeof(buffer),"Invalid command. Use INVITE <player_name>\n");
-      send(opponent_socket,buffer,strlen(buffer),0);
+      send(client_socket,buffer,strlen(buffer),0);
     }
   }
 }
