@@ -28,23 +28,23 @@ struct Client {
     char name[BUFFER_SIZE];
 };
 
-struct Client lobby[MAX_CLIENTS];
+struct Client *lobby[MAX_CLIENTS];
 int *lobby_count;
 
 
 void broadcast_lobby() {
     char buffer[BUFFER_SIZE] = "Lobby: ";
-    printf("Broadcasting lobby...\n"); 
+    printf("Broadcasting lobby...\n");
     for (int i = 0; i < *lobby_count; i++) {
-        strcat(buffer, lobby[i].name);
+        strcat(buffer, lobby[i]->name);
         strcat(buffer, " ");
     }
     strcat(buffer, "\nType 'INVITE <player_name>' to invite a player or 'QUIT' to leave.\n");
 
 
     for (int i = 0; i < *lobby_count; i++) {
-        printf("Sending lobby update to %s\n", lobby[i].name); 
-        if (send(lobby[i].socket, buffer, strlen(buffer), 0) == -1) {
+        printf("Sending lobby update to %s\n", lobby[i]->name);
+        if (send(lobby[i]->socket, buffer, strlen(buffer), 0) == -1) {
             perror("Failed to broadcast lobby update");
         }
     }
@@ -54,10 +54,10 @@ void broadcast_lobby() {
 void add_to_lobby(int client_socket, const char *name) {
     printf("Adding client to lobby: %s\n", name);
     if (*lobby_count < MAX_CLIENTS) {
-        lobby[*lobby_count].socket = client_socket;
-        strncpy(lobby[*lobby_count].name, name, BUFFER_SIZE);
+        lobby[*lobby_count]->socket = client_socket;
+        strncpy(lobby[*lobby_count]->name, name, BUFFER_SIZE);
         *lobby_count = *lobby_count +1;
-        printf("Lobby size after adding: %d\n", *lobby_count); 
+        printf("Lobby size after adding: %d\n", *lobby_count);
         broadcast_lobby();
     } else {
         char msg[] = "Lobby is full, try again later.\n";
@@ -68,12 +68,12 @@ void add_to_lobby(int client_socket, const char *name) {
 
 
 void remove_from_lobby(int client_socket) {
-    printf("Removing client from lobby...\n"); 
+    printf("Removing client from lobby...\n");
     for (int i = 0; i < *lobby_count; i++) {
-        if (lobby[i].socket == client_socket) {
-            printf("Client found: %s\n", lobby[i].name);
+        if (lobby[i]->socket == client_socket) {
+            printf("Client found: %s\n", lobby[i]->name);
             for (int j = i; j < *lobby_count - 1; j++) {
-                lobby[j] = lobby[j + 1];
+                *lobby[j] = *lobby[j + 1];
             }
             *lobby_count = *lobby_count - 1;
             printf("Lobby size after removal: %d\n", *lobby_count);
@@ -81,7 +81,7 @@ void remove_from_lobby(int client_socket) {
             return;
         }
     }
-    printf("Client not found in lobby.\n"); 
+    printf("Client not found in lobby.\n");
 }
 
 
@@ -98,24 +98,24 @@ void handle_game(int client1, int client2) {
         int opponent_client = (turn == 1) ? client2 : client1;
 
         snprintf(buffer, sizeof(buffer), "Your turn. Type 'POSITION <0|1|2>' or 'SHOOT <0|1|2>' (type 'quit' to leave): ");
-        printf("Sending turn prompt to Player %d\n", turn); 
+        printf("Sending turn prompt to Player %d\n", turn);
         send(active_client, buffer, strlen(buffer), 0);
 
         memset(buffer, 0, sizeof(buffer));
         int bytes_read = recv(active_client, buffer, sizeof(buffer) - 1, 0);
         if (bytes_read <= 0 || strncmp(buffer, "quit", 4) == 0) {
             snprintf(buffer, sizeof(buffer), "Player %d has left the game.\n", turn);
-            printf("Player %d quit the game.\n", turn); 
+            printf("Player %d quit the game.\n", turn);
             send(client1, buffer, strlen(buffer), 0);
             send(client2, buffer, strlen(buffer), 0);
             break;
         }
 
         buffer[bytes_read] = '\0';
-        printf("Player %d sent: %s\n", turn, buffer); 
+        printf("Player %d sent: %s\n", turn, buffer);
         send(opponent_client, buffer, strlen(buffer), 0);
 
-        turn = 3 - turn; 
+        turn = 3 - turn;
     }
 
     close(client1);
@@ -127,13 +127,13 @@ void handle_game(int client1, int client2) {
 void handle_client(int client_socket) {
     char buffer[BUFFER_SIZE];
 
-    
+
     recv(client_socket, buffer, sizeof(buffer) - 1, 0);
-    buffer[strcspn(buffer, "\n")] = '\0'; 
-    printf("Client connected: %s\n", buffer); 
+    buffer[strcspn(buffer, "\n")] = '\0';
+    printf("Client connected: %s\n", buffer);
     add_to_lobby(client_socket, buffer);
 
-   
+
     while (1) {
         memset(buffer, 0, sizeof(buffer));
         int bytes_read = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
@@ -148,21 +148,21 @@ void handle_client(int client_socket) {
         buffer[bytes_read] = '\0';
         printf("Received command from : %s\n", buffer);
 
-      
+
         if (strncmp(buffer, "INVITE", 6) == 0) {
             char opponent_name[BUFFER_SIZE];
             sscanf(buffer + 7, "%s", opponent_name);
 
             int opponent_socket = -1;
             for (int i = 0; i < *lobby_count; i++) {
-                if (strcmp(lobby[i].name, opponent_name) == 0) {
-                    opponent_socket = lobby[i].socket;
+                if (strcmp(lobby[i]->name, opponent_name) == 0) {
+                    opponent_socket = lobby[i]->socket;
                     break;
                 }
             }
 
             if (opponent_socket != -1) {
-                snprintf(buffer, sizeof(buffer), "%s invites you to a game. Type 'ACCEPT' to join.\n", lobby[0].name);
+                snprintf(buffer, sizeof(buffer), "%s invites you to a game. Type 'ACCEPT' to join.\n", lobby[0]->name);
                 send(opponent_socket, buffer, strlen(buffer), 0);
 
                 memset(buffer, 0, sizeof(buffer));
@@ -183,7 +183,7 @@ void handle_client(int client_socket) {
                 send(client_socket, buffer, strlen(buffer), 0);
             }
         } else if (strncmp(buffer, "QUIT", 4) == 0) {
-            printf("Client left the lobby: %s\n", buffer); 
+            printf("Client left the lobby: %s\n", buffer);
             remove_from_lobby(client_socket);
             close(client_socket);
             break;
@@ -201,6 +201,11 @@ int main() {
         MAP_SHARED | MAP_ANONYMOUS, -1, 0);
         *lobby_count = 0;
         printf("for lc: %d",*lobby_count);
+      lobby = (struct Client **)mmap(NULL,sizeof(struct Client),PROT_READ | PROT_WRITE,MAP_SHARED | MAP_ANONYMOUS,-1,0);
+
+
+
+
     struct addrinfo hints, *res;
     int listen_socket;
 
