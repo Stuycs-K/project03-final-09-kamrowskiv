@@ -74,6 +74,18 @@ int main(){
           fgets(buffer,sizeof(buffer),stdin);
           send(socket_fd,buffer,strlen(buffer),0);
         }
+
+        if(strstr(buffer,"Your turn")!=NULL){
+            printf("Enter your command (POSITION <0|1|2> or SHOOT <0|1|2>): ");
+            memset(buffer,0,sizeof(buffer));
+            fgets(buffer,sizeof(buffer),stdin);
+            send(socket_fd,buffer,strlen(buffer),0);
+
+            if(strncmp(buffer,"quit",4)==0){
+                printf("You quit the game\n");
+                break;
+            }
+        }
     }
     close(socket_fd);
     return 0;
