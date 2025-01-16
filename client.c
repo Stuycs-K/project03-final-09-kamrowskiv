@@ -47,7 +47,7 @@ int main(){
     printf("Enter your name: ");
     memset(buffer,0,sizeof(buffer));
     fgets(buffer,sizeof(buffer),stdin);
-    buffer[strcspn(buffer,"\n")] = "\0";
+    buffer[strcspn(buffer,"\n")] = '\0';
     send(socket_fd,buffer,strlen(buffer),0);
 
     while(1){
