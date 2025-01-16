@@ -89,9 +89,12 @@ At home:
 - Edited client by removing all old unnecessary methods
 - Planned how to add methods and structs to shared.h to make everything more efficient
 
-### 2025-01-15 - Finished client.c code for lobby in main
+### 2025-01-15 - Finished client.c code for lobby in main, started shared memory for certain variables
 
 In class:
 - Added ask for name in client using stdin
 - Client main added code for when you are invited
 - Client main added code for when you invite someone
+
+At home:
+- Started shared memory for lobby count variable and lobby array
