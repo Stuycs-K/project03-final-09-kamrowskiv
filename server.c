@@ -202,7 +202,7 @@ int main() {
         *lobby_count = 0;
         printf("for lc: %d",*lobby_count);
       lobby = (struct Client **)mmap(NULL,sizeof(struct Client),PROT_READ | PROT_WRITE,MAP_SHARED | MAP_ANONYMOUS,-1,0);
-
+//for lobby look at lab 14 for sending info between parent and child
 
 
 

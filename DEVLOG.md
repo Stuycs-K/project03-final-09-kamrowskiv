@@ -2,7 +2,7 @@
 
 This document must be updated daily by EACH group member.
 
-## Victor Kamrowski
+## Victor Kamrowski (GROUP ID: 11)
 
 ### 2025-01-06 - Created and started files, wrote md files + makefile + shared.h, made structs
 
