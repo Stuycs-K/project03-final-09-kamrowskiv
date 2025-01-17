@@ -23,20 +23,18 @@ void handle_game(int client1, int client2, int client3, int client4) {
         {POS_MIDDLE, MAX_LIVES},
         {POS_MIDDLE, MAX_LIVES}
     };
+    int active_clients[4] = {client1, client2, client3, client4};
+    int player_count = 4;
 
     while (1) {
         for (int current_player = 0; current_player < 4; current_player++) {
-            if (players[current_player].lives <= 0) continue; // Skip dead players
-
-            int active_client;
-            switch (current_player) {
-                case 0: active_client = client1; break;
-                case 1: active_client = client2; break;
-                case 2: active_client = client3; break;
-                case 3: active_client = client4; break;
+            if (players[current_player].lives <= 0 || active_clients[current_player] == -1) {
+                continue; // Skip players who are dead or have quit
             }
 
-            while (1) { // Ensure the player’s turn only ends with a valid command
+            int active_client = active_clients[current_player];
+
+            while (1) { // Ensure the player's turn only ends with a valid command
                 snprintf(buffer, sizeof(buffer),
                          "Your turn. Lives: %d\nEnter command (POSITION <0|1|2> or SHOOT <player_id> <0|1|2>) (type 'quit' to exit): ",
                          players[current_player].lives);
@@ -44,15 +42,30 @@ void handle_game(int client1, int client2, int client3, int client4) {
 
                 memset(buffer, 0, sizeof(buffer));
                 int bytes_read = recv(active_client, buffer, sizeof(buffer) - 1, 0);
-                if (bytes_read <= 0 || strcmp(buffer, "quit\n") == 0) {
-                    snprintf(buffer, sizeof(buffer), "Player %d has left the game\n", current_player + 1);
+                if (bytes_read <= 0 || strncmp(buffer, "quit", 4) == 0) {
+                    // Player has quit
+                    snprintf(buffer, sizeof(buffer), "Player %d has left the game.\n", current_player + 1);
                     for (int i = 0; i < 4; i++) {
-                        int client = (i == 0) ? client1 : (i == 1) ? client2 : (i == 2) ? client3 : client4;
-                        if (client != active_client) send(client, buffer, strlen(buffer), 0);
+                        if (active_clients[i] != -1 && i != current_player) {
+                            send(active_clients[i], buffer, strlen(buffer), 0);
+                        }
                     }
-                    players[current_player].lives = 0;
                     close(active_client);
-                    break;
+                    active_clients[current_player] = -1;
+                    players[current_player].lives = 0;
+                    player_count--;
+
+                    // Check for game over due to forfeit
+                    if (player_count == 1) {
+                        for (int i = 0; i < 4; i++) {
+                            if (active_clients[i] != -1) {
+                                snprintf(buffer, sizeof(buffer), "Player %d wins by forfeit! Game over.\n", i + 1);
+                                send(active_clients[i], buffer, strlen(buffer), 0);
+                            }
+                        }
+                        return;
+                    }
+                    break; // Exit the turn loop
                 }
 
                 buffer[bytes_read] = '\0';
@@ -75,7 +88,7 @@ void handle_game(int client1, int client2, int client3, int client4) {
                         target_player >= 1 && target_player <= 4 && target_position >= 0 && target_position <= 2) {
                         target_player--; // Convert to 0-index
 
-                        if (target_player == current_player || players[target_player].lives <= 0) {
+                        if (target_player == current_player || players[target_player].lives <= 0 || active_clients[target_player] == -1) {
                             snprintf(buffer, sizeof(buffer), "Invalid target.\n");
                             send(active_client, buffer, strlen(buffer), 0);
                             continue; // Prompt the same player again
@@ -90,14 +103,15 @@ void handle_game(int client1, int client2, int client3, int client4) {
                         }
 
                         for (int i = 0; i < 4; i++) {
-                            int client = (i == 0) ? client1 : (i == 1) ? client2 : (i == 2) ? client3 : client4;
-                            send(client, buffer, strlen(buffer), 0);
+                            if (active_clients[i] != -1) {
+                                send(active_clients[i], buffer, strlen(buffer), 0);
+                            }
                         }
 
                         // Check for game over
                         int alive_count = 0, winner = -1;
                         for (int i = 0; i < 4; i++) {
-                            if (players[i].lives > 0) {
+                            if (players[i].lives > 0 && active_clients[i] != -1) {
                                 alive_count++;
                                 winner = i;
                             }
@@ -106,8 +120,9 @@ void handle_game(int client1, int client2, int client3, int client4) {
                         if (alive_count == 1) {
                             snprintf(buffer, sizeof(buffer), "Player %d wins! Game over.\n", winner + 1);
                             for (int i = 0; i < 4; i++) {
-                                int client = (i == 0) ? client1 : (i == 1) ? client2 : (i == 2) ? client3 : client4;
-                                send(client, buffer, strlen(buffer), 0);
+                                if (active_clients[i] != -1) {
+                                    send(active_clients[i], buffer, strlen(buffer), 0);
+                                }
                             }
                             return;
                         }
