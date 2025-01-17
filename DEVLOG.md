@@ -109,3 +109,8 @@ At home:
 - Added 4 player game
 - Added game ends when one player Remaining
 - Game ends when all players quit
+
+### 2025-01-17/18/19/20 - Extensive testing and adding Signals
+
+In class:
+- Extensive testing, everything works so far
