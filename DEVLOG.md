@@ -98,3 +98,14 @@ In class:
 
 At home:
 - Started shared memory for lobby count variable and lobby array
+
+### 2025-01-16 - Scrapped lobby, made a 4 player game, fully works
+
+In class:
+- Continued working on lobby
+
+At home:
+- Scrapped lobby, using old model pushed to Main
+- Added 4 player game
+- Added game ends when one player Remaining
+- Game ends when all players quit
