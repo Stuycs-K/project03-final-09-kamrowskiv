@@ -1,18 +1,51 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Vh67aNdh)
-# Terminal Paintball
+# 4 Player Terminal Paintball
 
-### Solo
+### Team Name: CS-V
 
-Victor Kamrowski
+ Group Members: Victor Kamrowski
 
 ### Project Description:
 
-Terminal paintball is a copy of GamePigeon's paintball game. It is a turn-based two player game. When players choose their opponent in a lobby, each player takes turn choosing a hiding spot (left, middle, right), and a shooting spot (left, middle, right: mirrored so if you shoot left, your opponent sees as if you shot right). Each player has three lives, and each hit shot reduces a life. First player to reduce their opponent to zero lives wins. After a game, they will go back to the lobby.
+4 player Terminal Paintball takes 4 clients and concurrently connects them to a single game of paintball. Each player starts with 3 lives, and each player takes turns choosing whether to shoot a specific position (to lower another player's life by 1) or to switch their hiding position (0, 1, or 2). The last player standing wins (either by all opponents eliminated or forfeited). Additionally, multiple groups of players can play games at the same time. Used: working with files, processes (fork), signals, and sockets
 
 ### Instructions:
 
-The user will git clone the repository. Going to the terminal and using make compile will create a server and client. This will make the clientfile, which will be run through make play. The server will also do the same and can be run through make server if wished. After make play, they will wait for an opponent in the lobby.
+**Git Clone**:
+```git clone git@github.com:Stuycs-K/project03-final-09-kamrowskiv.git```
 
-Once there is an opponent, the terminal will show and graphic of three hiding and shooting spots and text asking questions for the player to choose their turn choices. There should be two imputs here: first for hiding spot (L, M, R) and shooting spot (L, M, R). Once the user inputs, they will wait for their opponent to do the same.
+**Compile (after every clean)**:
+```make compile```
 
-The player can forfeit anytime during the game through CTRL-C or go back to the lobby through Q. When a player has won, the players go back to the lobby, and they may again leave the lobby through CTRL-C.
+**Server**:
+```make server```
+
+**Client**:
+```make play```
+
+**Clean (after every server disconnect)**:
+```make clean```
+
+Each player will go in turns receiving this message:
+
+"Enter command (POSITION <0|1|2> or SHOOT <player_id> <0|1|2>) (type 'quit' to exit): Enter your command:"
+
+**Examples commands**:
+```POSITION 0``` (player chooses position 0)
+```SHOOT 4 1``` (player shoots player 4's position 1)
+```quit``` (player quits the game. only allowed during turn.)
+```CTRL-C``` (player disconnects from server. can be used anytime)
+
+- Game continues until 3 players die/quit
+- Server is open until CTRL-C closes all open clients
+
+Make clean may have to be run multiple times in terminal. Make compile WILL always have to be run after make clean. 
+
+If you get error:
+
+bind failed: Address already in use
+
+KEEP USING MAKE CLEAN
+
+
+
