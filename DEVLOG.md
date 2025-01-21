@@ -110,7 +110,14 @@ At home:
 - Added game ends when one player Remaining
 - Game ends when all players quit
 
-### 2025-01-17/18/19/20 - Extensive testing and adding Signals
+### 2025-01-17/18/19/20 - Extensive testing and added signals, recorded video, finalized readme
 
 In class:
 - Extensive testing, everything works so far
+
+At home:
+- Added signal catcher for CTRL-C, everything caught properly
+- More extensive testing, everything works
+- Recorded video
+- Finalized READ.ME
+
