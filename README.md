@@ -7,7 +7,9 @@
 
 ### Project Description:
 
-4 player Terminal Paintball takes 4 clients and concurrently connects them to a single game of paintball. Each player starts with 3 lives, and each player takes turns choosing whether to shoot a specific position (to lower another player's life by 1) or to switch their hiding position (0, 1, or 2). The last player standing wins (either by all opponents eliminated or forfeited). Additionally, multiple groups of players can play games at the same time. Used: working with files, processes (fork), signals, and sockets
+4 player Terminal Paintball takes 4 clients and concurrently connects them to a single game of paintball. Each player starts with 3 lives, and each player takes turns choosing whether to shoot a specific position (to lower another player's life by 1) or to switch their hiding position (0, 1, or 2). The last player standing wins (either by all opponents eliminated or forfeited). Additionally, multiple groups of players can play games at the same time. 
+
+Used: working with files, processes (fork), signals, and sockets
 
 ### Instructions:
 
