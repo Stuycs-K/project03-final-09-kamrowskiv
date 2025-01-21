@@ -9,10 +9,23 @@
 #define PORT "9999"
 #define BUFFER_SIZE 256
 
+int socket_fd = -1;
+
+void handle_sigint(int sig){
+    printf("\nCaught SIGINT. Exiting.\n");
+    if(socket_fd!=-1){
+        char quit_msg[] = "quit";
+        send(socket_fd,quit_msg,strlen(quit_msg),0);
+        close(socket_fd);
+    }
+    exit(0);
+}
+
 int main() {
     struct addrinfo hints, *res;
-    int socket_fd;
     char buffer[BUFFER_SIZE];
+
+    signal(SIGINT,handle_sigint);
 
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;

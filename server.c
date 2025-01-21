@@ -4,11 +4,22 @@
 #include <unistd.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <sys/wait.h>
 #include "shared.h"
 
 #define PORT "9999"
 #define BUFFER_SIZE 256
 #define MAX_LIVES 3
+
+int listen_socket = -1;
+
+void handle_sigint(int sig){
+  printf("\nShutting down the server.\n");
+  if(listen_socket==-1){
+    close(listen_socket);
+  }
+  exit(0);
+}
 
 struct Player {
     int position;
@@ -144,8 +155,10 @@ void handle_game(int client1, int client2, int client3, int client4) {
 }
 
 int main() {
+  signal(SIGINT, handle_sigint);
+
     struct addrinfo hints, *res;
-    int listen_socket, client1, client2, client3, client4;
+    int client1, client2, client3, client4;
 
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;
